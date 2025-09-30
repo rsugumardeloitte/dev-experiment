@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DevSecOps Demo</title>
+  <script src="node_modules/dompurify/dist/purify.min.js"></script>
+</head>
+<body>
+  <h1>Hello DevSecOps!</h1>
+  <div id="output"></div>
+  <script>
+    // Vulnerable version of DOMPurify in use
+    const dirty = "<img src=x onerror=alert('XSS')>";
+    document.getElementById("output").innerHTML = DOMPurify.sanitize(dirty);
+  </script>
+</body>
+</html>
