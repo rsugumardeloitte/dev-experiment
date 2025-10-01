@@ -1,82 +1,91 @@
 name: DevSecOps Demo
 
 permissions:
-    contents: write
-    security-events: write
-    
+  contents: write
+  security-events: write
+
 on:
- push:
-   branches: [ main ]
- pull_request:
-   branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
- devsecops:
-   runs-on: ubuntu-latest
+  devsecops:
+    runs-on: ubuntu-latest
 
-   steps:
-     # ----- Checkout code -----
-     - name: Checkout repository
-       uses: actions/checkout@v3
+    steps:
+      # ----- Checkout code -----
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-     # ----- Setup Node.js -----
-     - name: Setup Node.js
-       uses: actions/setup-node@v3
-       with:
-         node-version: '18'
+      # ----- Setup Node.js -----
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-     # ----- Install dependencies -----
-     - name: Install dependencies
-       run: npm install
+      # ----- Install dependencies -----
+      - name: Install dependencies
+        run: npm install
 
-     # ----- Static Code Analysis Javascript Linter -----
-     - name: Run JSHint
-       run: |
-           npm install -g jshint
-           jshint demo.js 
+      # ----- Static Code Analysis Javascript Linter -----
+      - name: Run JSHint
+        run: |
+          npm install -g jshint
+          jshint demo.js
 
-     # ----- SAST (Static Application Security Testing) -----
-     - name: Initialize CodeQL
-       uses: github/codeql-action/init@v3
-       with: 
+      # ----- SAST (Static Application Security Testing) -----
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
           languages: javascript
-     - name:  Perform CodeQL Analysis 
-       uses: github/codeql-action/analyze@v3
-        
-     # ----- SCA + SBOM -----
-     - name: Install Syft
-       run: |
-         curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
-     - name: Install Grype
-       run: |
-         curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
 
-     - name: Generate SBOM (CycloneDX JSON)
-       run: syft dir:. -o cyclonedx-json > sbom.json
+      # ----- SCA + SBOM -----
+      - name: Install Syft
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
-     - name: SCA Scan (fail on high severity)
-       run: grype dir:. --fail-on high
+      - name: Install Grype
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 
-     - name: Upload SBOM artifact
-       uses: actions/upload-artifact@v4
-       with:
-         name: sbom
-         path: sbom.json
+      - name: Generate SBOM (CycloneDX JSON)
+        run: syft dir:. -o cyclonedx-json > sbom.json
 
-     - name: Deploy to GitHub Pages
-       uses: peaceiris/actions-gh-pages@v4
-       with: 
-           github_token: ${{ secrets.GITHUB_TOKEN }}
-           publish_dir: ./
+      - name: SCA Scan (fail on high severity)
+        run: grype dir:. --fail-on high
 
-     # ----- (Optional) DAST -----
-     # - name: Start local app
-     #   run: |
-     #     nohup npx http-server . -p 8080 &
-     #     sleep 5
-     #
-     # - name: Run OWASP ZAP Baseline Scan
-     #   uses: zaproxy/action-baseline@v0.7.0
-     #   with:
-     #     target: 'http://localhost:8080'
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: devsecops
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+
+    # ----- (Optional) DAST -----
+    # - name: Start local app
+    #   run: |
+    #     nohup npx http-server . -p 8080 &
+    #     sleep 5
+    #
+    # - name: Run OWASP ZAP Baseline Scan
+    #   uses: zaproxy/action-baseline@v0.7.0
+    #   with:
+    #     target: 'http://localhost:8080'
