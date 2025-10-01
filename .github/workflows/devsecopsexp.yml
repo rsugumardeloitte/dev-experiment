@@ -92,11 +92,11 @@ jobs:
           cmd_options: '-j -J report_json.json -w report_md.md -r report_html.html'
           artifact_name: 'zap_scan_reports'
 
-      - name: Upload OWASP ZAP Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: zap-report
-          path: zap_report.html
+     # - name: Upload OWASP ZAP Report
+      #  uses: actions/upload-artifact@v4
+       # with:
+        #  name: zap-report
+         # path: zap_report.html
 
     # ----- (Optional) DAST -----
     # - name: Start local app
