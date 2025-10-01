@@ -4,7 +4,7 @@ Code
  │
  ▼ Generates SAST report (logs/artifact)
  │
- ▼ SBOM Generation (Syft / SIFT)
+ ▼ SBOM Generation (Syft)
  │
  ▼ SBOM file (sbom.json / CycloneDX)
  │
