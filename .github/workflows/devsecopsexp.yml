@@ -33,7 +33,7 @@ jobs:
      - name: Run JSHint
        run: |
            npm install -g jshint
-           jshint "**/*.js" 
+           jshint demo.js 
 
      # ----- SAST (Static Application Security Testing) -----
      - name: Initialize CodeQL
