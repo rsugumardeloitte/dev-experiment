@@ -32,8 +32,9 @@ jobs:
       # ----- Static Code Analysis Javascript Linter -----
       - name: Run JSHint
         run: |
+          set -e 
           npm install -g jshint
-          jshint demo.js
+          jshint demo.js || exit 1
 
       # ----- SAST (Static Application Security Testing) -----
       - name: Initialize CodeQL
