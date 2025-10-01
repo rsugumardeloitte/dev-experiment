@@ -27,7 +27,7 @@ jobs:
 
      # ----- SAST (Static Application Security Testing) -----
      - name: Run Semgrep (SAST)
-       uses: returntocorp/semgrep-action@v1
+       uses: semgrep/semgrep-action@v1
        with: 
             config: "p/ci p/javascript"
 
