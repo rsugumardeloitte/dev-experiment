@@ -11,3 +11,17 @@ function processData(input) {
 }
 
 processData("Hello, World!");
+
+function generateInsecureToken() {
+  const token = Math.random().toString(36).substring(2, 15);
+  return token;
+}
+
+
+
+const crypto = require('crypto');
+
+// WARNING: This code uses a weak cryptographic algorithm (MD5).
+function hashPasswordWeak(password) {
+  return crypto.createHash('md5').update(password).digest('hex');
+}
