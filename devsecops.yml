@@ -1,0 +1,62 @@
+name: DevSecOps Demo
+
+on:
+ push:
+   branches: [ main ]
+ pull_request:
+   branches: [ main ]
+
+jobs:
+ devsecops:
+   runs-on: ubuntu-latest
+
+   steps:
+     # ----- Checkout code -----
+     - name: Checkout repository
+       uses: actions/checkout@v3
+
+     # ----- Setup Node.js -----
+     - name: Setup Node.js
+       uses: actions/setup-node@v3
+       with:
+         node-version: '18'
+
+     # ----- Install dependencies -----
+     - name: Install dependencies
+       run: npm install
+
+     # ----- SAST (Static Application Security Testing) -----
+     - name: Run ESLint (SAST demo)
+       run: npx eslint . || true
+
+     # ----- SCA + SBOM -----
+     - name: Install Syft
+       run: |
+         curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
+     - name: Install Grype
+       run: |
+         curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+
+     - name: Generate SBOM (CycloneDX JSON)
+       run: syft dir:. -o cyclonedx-json > sbom.json
+
+     - name: SCA Scan (fail on high severity)
+       run: grype dir:. --fail-on high
+
+     - name: Upload SBOM artifact
+       uses: actions/upload-artifact@v4
+       with:
+         name: sbom
+         path: sbom.json
+
+     # ----- (Optional) DAST -----
+     # - name: Start local app
+     #   run: |
+     #     nohup npx http-server . -p 8080 &
+     #     sleep 5
+     #
+     # - name: Run OWASP ZAP Baseline Scan
+     #   uses: zaproxy/action-baseline@v0.7.0
+     #   with:
+     #     target: 'http://localhost:8080'

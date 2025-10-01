@@ -1,0 +1,12 @@
+{
+  "name": "devsecops-demo",
+  "version": "1.0.0",
+  "description": "Simple demo app with DOMPurify",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx http-server . -p 8080"
+  },
+  "dependencies": {
+     "dompurify": "^3.0.6"
+  }
+}
