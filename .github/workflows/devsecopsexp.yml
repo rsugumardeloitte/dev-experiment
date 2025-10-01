@@ -3,6 +3,7 @@ name: DevSecOps Demo
 permissions:
   contents: write
   security-events: write
+  pull-requests: write
 
 on:
   push:
