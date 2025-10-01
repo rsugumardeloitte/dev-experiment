@@ -7,6 +7,6 @@
     "start": "npx http-server . -p 8080"
   },
   "dependencies": {
-    "dompurify": "^3.0.6"
+    "dompurify": "2.0.7"
   }
 }
