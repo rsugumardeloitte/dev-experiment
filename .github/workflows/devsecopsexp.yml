@@ -26,11 +26,13 @@ jobs:
        run: npm install
 
      # ----- SAST (Static Application Security Testing) -----
-     - name: Run Semgrep (SAST)
-       uses: semgrep/semgrep-action@v1
+     - name: Initialize CodeQL
+       uses: github/codeql-action/init@v2
        with: 
-            config: "p/ci p/javascript"
-
+          languages: javascript
+     - name:  Perform CodeQL Analysis 
+       uses: github/codeql-action/analyze@v2
+        
      # ----- SCA + SBOM -----
      - name: Install Syft
        run: |
