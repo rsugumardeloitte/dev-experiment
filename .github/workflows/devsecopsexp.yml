@@ -26,8 +26,10 @@ jobs:
        run: npm install
 
      # ----- SAST (Static Application Security Testing) -----
-     - name: Run ESLint (SAST demo)
-       run: npx eslint . || true
+     - name: Run Semgrep (SAST)
+       uses: returntocorp/semgrep-action@v1
+       with: 
+            config: "p/ci"
 
      # ----- SCA + SBOM -----
      - name: Install Syft
