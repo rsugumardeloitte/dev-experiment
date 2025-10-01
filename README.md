@@ -1,6 +1,6 @@
 Code
  │
- ▼ SAST (Semgrep)
+ ▼ SAST (CodeQL)
  │
  ▼ Generates SAST report (logs/artifact)
  │
