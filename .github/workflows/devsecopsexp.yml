@@ -89,7 +89,7 @@ jobs:
           cmd_options: '-quickurl https://rsugumardeloitte.github.io/dev-experiment/ -report /github/workspace/zap_report.html'
 
       - name: Upload OWASP ZAP Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: zap-report
           path: zap_report.html
