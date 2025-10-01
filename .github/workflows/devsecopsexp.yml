@@ -29,6 +29,12 @@ jobs:
      - name: Install dependencies
        run: npm install
 
+     # ----- Static Code Analysis Javascript Linter -----
+     - name: Run JSHint
+       run: |
+           npm install -g jshint
+           jshint index.js
+
      # ----- SAST (Static Application Security Testing) -----
      - name: Initialize CodeQL
        uses: github/codeql-action/init@v3
