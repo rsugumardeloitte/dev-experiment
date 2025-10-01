@@ -87,8 +87,7 @@ jobs:
         uses: zaproxy/action-full-scan@v0.9.0
         with:
           target: 'https://rsugumardeloitte.github.io/dev-experiment/'  # <-- replace with your GitHub Pages URL
-          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'   # optional, leave empty for default rules
-          fail_action: false  # set to true to fail workflow if vulnerabilities are found
+         
       #    cmd_options: '-j -J report_json.json -w report_md.md -r report_html.html'
       #    artifact_name: 'zap_scan_reports'
 
