@@ -1,5 +1,7 @@
 // Vulnerable version of DOMPurify in use
-const password="asdsadas"; 
+const userInput = "2+2";
+eval(userInput);
+
 const dirty = "<img src=x onerror=alert('XSS')>";
 document.getElementById("output").innerHTML = DOMPurify.sanitize(dirty);
 
