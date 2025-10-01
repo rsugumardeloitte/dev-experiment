@@ -2,7 +2,7 @@
 
 //const dirty = "<img src=x onerror=alert('XSS')>";
 
-var a=1
+var a=1;
 
 document.getElementById("output").innerHTML = DOMPurify.sanitize(dirty);
 
