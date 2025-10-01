@@ -4,6 +4,7 @@ permissions:
   contents: write
   security-events: write
   pull-requests: write
+  repository-projects: write
 
 on:
   push:
