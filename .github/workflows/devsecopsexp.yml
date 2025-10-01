@@ -87,9 +87,9 @@ jobs:
         uses: zaproxy/action-full-scan@v0.9.0
         with:
           target: 'https://rsugumardeloitte.github.io/dev-experiment/'  # <-- replace with your GitHub Pages URL
-          rules_file_name: ''   # optional, leave empty for default rules
-          fail_on_alert: false  # set to true to fail workflow if vulnerabilities are found
-          cmd_options: '-quickurl https://rsugumardeloitte.github.io/dev-experiment/ -report /github/workspace/zap_report.html'
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'   # optional, leave empty for default rules
+          fail_action: false  # set to true to fail workflow if vulnerabilities are found
+          cmd_options: '-j'
 
       - name: Upload OWASP ZAP Report
         uses: actions/upload-artifact@v4
