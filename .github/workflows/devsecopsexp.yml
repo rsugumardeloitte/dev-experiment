@@ -64,6 +64,12 @@ jobs:
          name: sbom
          path: sbom.json
 
+     - name: Deploy to GitHub Pages
+       uses: peaceiris/actions-gh-pages@v6
+       with: 
+           github_token: ${{ secrets.GITHUB_TOKEN }}
+           publish_dir: ./
+
      # ----- (Optional) DAST -----
      # - name: Start local app
      #   run: |
