@@ -30,6 +30,7 @@ jobs:
        uses: returntocorp/semgrep-action@v1
        with: 
             config: "p/ci"
+            version: "1.139.0"
 
      # ----- SCA + SBOM -----
      - name: Install Syft
